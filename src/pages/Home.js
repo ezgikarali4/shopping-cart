@@ -1,12 +1,20 @@
-import './home.css'
-import Item from '../components/Item'
-import { ShoppingCart } from '@mui/icons-material'
-import {useNavigate} from 'react-router-dom'
+import "./home.css";
+import { useSelector } from "react-redux";
+import Item from "../components/Item";
+import { ShoppingCart } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
 
-  const navigate = useNavigate()
-
+  const getTotalQuantity = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.quantity;
+    });
+    return total;
+  };
   return (
     <div className="home">
       <div className="home__container">
@@ -17,7 +25,7 @@ function Home() {
             price={98}
             image="https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$"
           />
-          
+
           <Item
             id={2}
             title="The Lean Startup: How Constant Innovation Create Radically Successful Businesses Paperback"
@@ -39,15 +47,15 @@ function Home() {
             image="https://images-na.ssl-images-amazon.com/images/I/816ctt5WV5L._AC_SX385_.jpg"
           />
 
-          <Item 
+          <Item
             id={1}
             title="Kenwood kMix Stand Miser for Baking, Stylish Kitchen Mixer with K-beater, Dough Hook and Whisk"
             price={229}
             image="https://st.depositphotos.com/1765561/4857/i/450/depositphotos_48579839-stock-photo-opened-blue-stand-mixer.jpg"
             rating={4}
           />
-        
-          <Item 
+
+          <Item
             id={6}
             title="Samsung LC49RG90SSUXEN 49' Curved LED Gaming Monitor - Super Ultra Wide Dual QHD 5120 x 1440"
             price={1094}
@@ -55,12 +63,12 @@ function Home() {
           />
         </div>
       </div>
-      <div className='shopping-cart' onClick={() => navigate('/cart')}>
-        <ShoppingCart id='cartIcon'/>
-        <p>0</p>
+      <div className="shopping-cart" onClick={() => navigate("/cart")}>
+        <ShoppingCart id="cartIcon" />
+        <p>{getTotalQuantity() || 0}</p>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
